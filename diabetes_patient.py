@@ -5,7 +5,7 @@ import seaborn as sns
 st.set_page_config(layout= 'wide', page_title= 'diabetes_patient')
 st.markdown("<h1 style='text-align: center; color: white;'>diabetes dataset with Analysis</h1>", unsafe_allow_html=True)
 st.image('https://img.freepik.com/free-vector/diabetes-flat-composition-medical-with-patient-symptoms-complications-blood-sugar-meter-treatments-medication_1284-28998.jpg')
-df = pd.read_csv('E:/data science & python/mid project mahmoud sayed/cleand_data.csv',index_col=0)
+df = pd.read_csv('cleand_data.csv',index_col=0)
 page = st.sidebar.radio('Pages', ['Introduction', 'Analysis Questions', 'Reporting'])
 if page == 'Introduction':
 
