@@ -13,7 +13,7 @@ if page == 'Introduction':
 
     st.header('diabetes_patient Description')
 
-    st.write('''The dataset contains 464003 entries and 13 columns. Here's a summary of the columns:
+    st.write('''The dataset contains 232002 entries and 13 columns. Here's a summary of the columns:
 
     Visit_Date: The date on which the patient visited the medical facility (past 6 years).
     Patient_ID:  A unique identifier assigned to each patient.
