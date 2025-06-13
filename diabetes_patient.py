@@ -54,7 +54,7 @@ Resource allocation priorities.''')
 
     There is virtually no correlation between age and total medical cost in this dataset. 
              Age does not significantly impact the total cost. ''')
-    st.header(' Q4 What Is The Average Total Cost Per Gender ?')
+    st.header(' Q4 What Is The Average Cost Per Gender ?')
     average_total_cost_per_gender = df.groupby('Gender')['Total_Cost'].mean().sort_values(ascending= False).reset_index()
     st.plotly_chart(px.bar(average_total_cost_per_gender , x= 'Gender', y= 'Total_Cost' , labels= {'Total_Cost': 'avg total cost per gender'}, 
        title= 'average_total_cost_per_gender' , text_auto=True))
@@ -80,10 +80,10 @@ Total medical costs are consistent year-over-year, hovering around 34 million AE
 
 Type 3 Diabetes patients tend to have the longest consultations on average.
      ''')
-    st.header('Q7 What Is The Average Total Cost Per Gender Per Diagnosis ?')
+    st.header('Q7 What Is The Avg Total Cost Per Gender Per Diagnosis ?')
     avg_total_cost_per_area = df.groupby(['Gender', 'Diagnosis'])['Total_Cost'].mean().reset_index()
     st.plotly_chart(px.bar(avg_total_cost_per_area ,x='Diagnosis' , y='Total_Cost',
-         labels= {'Total_Cost' : 'Average of Total_Cost'}, title= 'Average Total_Cost per Diagnosis per Gender',
+         labels= {'Total_Cost' : 'Avg of Total_Cost'}, title= 'Avg Total_Cost per Diagnosis per Gender',
        text_auto= True, color= 'Gender', barmode= 'group'))
 
     st.write('''Insight Q7:
@@ -91,10 +91,33 @@ Type 3 Diabetes patients tend to have the longest consultations on average.
 Costs vary slightly by area and diagnosis, 
 with Downtown Dubai showing consistently higher costs compared to others.
      ''')
+    st.header('Q8 What Is The Average Cost Per Area?')
+    avg_total_cost_per_area = df.groupby('Area')['Total_Cost'].mean().sort_values(ascending=False).reset_index()
+    st.plotly_chart(px.bar(avg_total_cost_per_area, x='Area', y='Total_Cost',
+        labels={'Total_Cost': 'Avg Total Cost'},
+        title='Avg Total Cost per Area', text_auto=True))
+    st.write('''Insight Q8:
+
+Some areas, such as Downtown Dubai or Al Ain, show higher average medical costs, 
+which may reflect differences in healthcare facilities, services, or demographics.''')
 elif page == 'Reporting':
     Gender = st.sidebar.selectbox('Gender' ,df['Gender'].unique())
     Year = st.sidebar.selectbox('Year', df['Year'].unique())
     Area = st.sidebar.selectbox('Area',df['Area'].unique())
     Diagnosis = st.sidebar.selectbox('Diagnosis', df['Diagnosis'].unique())
     df2 = df[(df['Gender']== Gender) & (df['Year'] == Year) &(df['Area']== Area) & (df['Diagnosis']==Diagnosis) ]
+    st.subheader("Distribution of Total Cost for Selected Filters")
+    if not df2.empty:
+        st.plotly_chart(px.histogram(df2, x='Total_Cost', nbins=20, title='Total Cost Distribution'))
+    else:
+        st.warning("No data available for the selected filters.")
     st.dataframe(df2.head(50))    
+
+    st.subheader("Average Consultation Duration by Gender")
+    if not df2.empty:
+        avg_duration = df2.groupby('Gender')['Consultation_Duration'].mean().reset_index()
+        st.plotly_chart(px.bar(avg_duration, x='Gender', y='Consultation_Duration',
+            title='Average Consultation Duration by Gender',
+            labels={'Consultation_Duration': 'Avg Duration (minutes)'}))
+    else:
+        st.warning("No data available for the selected filters.") 
